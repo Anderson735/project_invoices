@@ -16,7 +16,7 @@ namespace project_invoices.Controllers
 
         public IEnumerable<Invoices> Index(int id)
         {   
-            string sql = "SELECT * FROM invoice, invoice_detail WHERE invoice.id = '"+ id +"'"; 
+            string sql = "SELECT * FROM invoice, invoice_detail WHERE invoice.id = '"+ id + "' AND invoice_detail.id_invoice = '" + id + "'"; 
 
 
             DataBase db = new DataBase();
@@ -35,6 +35,7 @@ namespace project_invoices.Controllers
                                {
                                    new Invoice_detail
                                    {
+                                     id_invoice = Convert.ToInt32(dr["id_invoice"]),
                                      description = dr["descripcion"].ToString(),
                                      valor = Convert.ToDecimal(dr["valor"])
                                    }    
