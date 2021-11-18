@@ -12,9 +12,11 @@ namespace project_invoices.Controllers
     public class InvoicesController : Controller
     {
         DataBase db = new DataBase();
-        public IEnumerable<Invoices> Index()
+
+
+        public IEnumerable<Invoices> Index(int id)
         {   
-            string sql = "SELECT * FROM invoice, invoice_detail GROUP BY invoice.id"; 
+            string sql = "SELECT * FROM invoice, invoice_detail WHERE invoice.id = '"+ id +"'"; 
 
 
             DataBase db = new DataBase();
@@ -26,6 +28,7 @@ namespace project_invoices.Controllers
             detailsList = (from DataRow dr in dt.Rows
                            select new Invoices()
                            {
+                               id = Convert.ToInt32(dr["id"]),
                                id_client = dr["cliente"].ToString(),
                                codigo = dr["cod"].ToString(),
                                details = new List<Invoice_detail>()
@@ -34,7 +37,7 @@ namespace project_invoices.Controllers
                                    {
                                      description = dr["descripcion"].ToString(),
                                      valor = Convert.ToDecimal(dr["valor"])
-                                   }
+                                   }    
                                }
                            }).ToList();
 
